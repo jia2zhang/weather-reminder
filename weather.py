@@ -16,7 +16,9 @@ api_key = os.environ.get("OpenWeatherMap_API_KEY")
 ## TODO: Download data and get city name
 request_url = f"https://api.openweathermap.org/data/2.5/forecast?zip={my_zip}&APPID={api_key}"
 response = requests.get(request_url)
+# print(response)
 parsed_response = json.loads(response.text)
+# print(parsed_response)
 my_city = parsed_response["city"]["name"]
 print("The location you inputted is", my_city)
 
@@ -25,26 +27,30 @@ filepath = os.path.join(os.path.dirname(__file__), "data", "test_data.json") # W
 
 step_in_date = parsed_response["list"]
 
-## TODO: FIND THE UTC range from now until end of day:
-# Source: <https://stackoverflow.com/questions/79797/how-to-convert-local-time-string-to-utc>
+## TODO: FIND THE UTC range from now until end of day tomorrow to get the forecast range for tomorrow:
+# Source 1: <https://stackoverflow.com/questions/79797/how-to-convert-local-time-string-to-utc>
 request_time = ""+datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-request_end = ""+(datetime.datetime.now()+timedelta(days=1)).strftime("%Y-%m-%d %H:%M:%S")
-formatted_request_end = ""+(datetime.datetime.now()+timedelta(days=1)).strftime("%B %d, %Y")
+request_end = ""+(datetime.datetime.now()+timedelta(days=2)).strftime("%Y-%m-%d 00:00:00")
+    # print("Request Time is " + request_time)
+    # print("Request End Time is " + request_end)
 
-print("Request Time is " + request_time)
-print("Request End Time is " + request_end)
-print("Request Formatted End Time is " + formatted_request_end)
 t_utc = calendar.timegm(time.strptime(request_time, '%Y-%m-%d %H:%M:%S'))
 t_utc_end = calendar.timegm(time.strptime(request_end, '%Y-%m-%d %H:%M:%S'))
-t_utc_end_formatted = calendar.timegm(time.strptime(formatted_request_end, '%B %d, %Y'))
+    # print("UTC Request Time is " + str(t_utc))
+    # print("UTC Request End Time is " + str(t_utc_end))
 
+## TODO: Create a today's main weather list, with ["Weather"][#]["main"] where # should be different values
+weather_main = []
+for l in parsed_response["list"]:
+    print(l["dt_txt"])
+    if l["dt"] < t_utc_end:
+        # for m in l["weather"]:
+        print(l["dt_txt"] + l["weather"][0]["main"])
+        weather_main.append(l["weather"][0]["main"])
+print(weather_main)
 
-print("UTC Request Time is " + str(t_utc))
-print("UTC Request End Time is " + str(t_utc_end))
-print("UTC Formatted Request End Time is "+ str(t_utc_end_formatted))
+## TODO: Create a today's temperature list, making sure that Kelvin is converted to Fahrenheit
 
-
-## Create a main weather list, with ["Weather"][#]["main"] where # should be different values
 
 ## Create a weather description list, with ["weather"][#]["description"]
 
