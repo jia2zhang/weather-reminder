@@ -28,4 +28,5 @@ conda activate weather-env
 ```sh
 pip install python-dotenv
 pip install requests
+pip install python-dateutil
 ```
