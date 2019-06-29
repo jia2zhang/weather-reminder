@@ -36,7 +36,6 @@ while True:
 
     filepath = os.path.join(os.path.dirname(__file__), "data", "test_data.json") # Write this to the data folder
 
-    step_in_date = parsed_response["list"]
 
     ## TODO: FIND THE UTC range from now until end of day tomorrow to get the forecast range for tomorrow:
     # Source 1: <https://stackoverflow.com/questions/79797/how-to-convert-local-time-string-to-utc>
@@ -49,33 +48,59 @@ while True:
     t_utc_end = calendar.timegm(time.strptime(request_end, '%Y-%m-%d %H:%M:%S'))
         # print("UTC Request Time is " + str(t_utc))
         # print("UTC Request End Time is " + str(t_utc_end))
+    ## TODO: Create a today's temperature list, making sure that Kelvin is converted to Fahrenheit
+    def to_fahrenheit(temp_kelvin):
+        return int(((9/5)*(temp_kelvin-273)+32))
 
     ## TODO: Create a today's main weather list, with ["Weather"][#]["main"] where # should be different values
     weather_main = []
+    weather_temp = []
     for l in parsed_response["list"]:
         # print(l["dt_txt"])
         if l["dt"] < t_utc_end:
             # for m in l["weather"]:
-            print(l["dt_txt"] + l["weather"][0]["main"])
+            # print(l["dt_txt"],l["weather"][0]["main"])
             weather_main.append(l["weather"][0]["main"])
-    print(weather_main)
+            weather_temp.append(to_fahrenheit(l["main"]["temp"]))
+    # print(weather_main)
+    high_temp = str(max(weather_temp))
+    low_temp = str(min(weather_temp))
+
+    # Remove duplicates from weather_main
+    weather_main = list(set(weather_main))
+    # print(weather_main)
+
+    ## TODO: Create recommendation logic based on weather_main and weather_temp
+    # Weather Conditions Documentation: <https://openweathermap.org/weather-conditions>
+    gear = []
+    def recommendation(weather_description,high,low):
+        # TEMPERATURES
+        if int(high) > 80:
+            gear.append("it's shorts weather!")
+        elif int(low) < 49:
+            gear.append("brrrrr, wear a jacket!")
+        # SNOW
+        if "Snow" in weather_description:
+            gear.append("it's a snowy day! Wear your snow gear!")
+        # DRIZZLE
+        elif "Drizzle" in weather_description:
+            gear.append("it might drizzle, so might want to bring your umbrella!")
+        # RAIN
+        elif "Rain" in weather_description:
+            gear.append("it's a rainy day! Bring your umbrella, ella, ella, ey, ey, ey!")
+        # THUNDERSTORM
+        elif "Thunderstorm" in weather_description:
+            gear.append("it's going to thunder, stay in or bring your umbrella!")
+        elif "Clouds" in weather_description:
+            gear.append("it's a cloudy day!")
+        return gear
+        
+    
+    recommendation(weather_main,high_temp,low_temp)
+
+    print("Weather for tomorrow suggests: ")
+    for g in gear:
+        print("-", g)
+
+
     break
-    ## TODO: Create a today's temperature list, making sure that Kelvin is converted to Fahrenheit
-
-
-    ## Create a weather description list, with ["weather"][#]["description"]
-
-    # for n in parsed_response["list"]:
-    #     if 
-
-
-
-    # #get all the UTCs in order to decipher
-    # all_utc = []
-    # for d_utc in parsed_response["list"]:
-    #     # print(d_utc["dt"])
-    #     all_utc.append(d_utc["dt"])
-    # # print(all_utc)
-    # print(len(all_utc))
-
-
