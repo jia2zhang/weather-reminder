@@ -1,5 +1,5 @@
 ## Install all necessary packages
-import os, requests, json, csv, datetime, calendar, time, dateutil, zipcodes, pprint
+import os, requests, json, csv, datetime, calendar, time, dateutil, zipcodes, pprint, emoji
 from dotenv import load_dotenv
 from datetime import timedelta
 from dateutil import tz
@@ -33,9 +33,6 @@ while True:
     # print(response)
     # print(parsed_response)
     print("The location you inputted is", my_city)
-
-
-    filepath = os.path.join(os.path.dirname(__file__), "data", "test_data.json") # Write this to the data folder
 
 
     ## TODO: FIND THE UTC range from now until end of day tomorrow to get the forecast range for tomorrow:
@@ -77,23 +74,25 @@ while True:
     def recommendation(weather_description,high,low):
         # TEMPERATURES
         if int(high) > 80:
-            gear.append("it's shorts weather")
+            gear.append(emoji.emojize(":sweat_drops: it's shorts weather", use_aliases=True))
         elif int(low) < 49:
-            gear.append("brrrrr, wear a jacket")
+            gear.append(emoji.emojize("brrrrr, wear a jacket :grimacing:", use_aliases=True))
+        else:
+            gear.append(emoji.emojize(":raised_hands: it's a perfect day for :shirt::jeans:", use_aliases=True))
         # SNOW
         if "Snow" in weather_description:
-            gear.append("it's a snowy day! Wear your snow gear")
+            gear.append(emoji.emojize("it's a snowy day! Wear your snow gear :snowboarder:", use_aliases=True))
         # DRIZZLE
         elif "Drizzle" in weather_description:
-            gear.append("it might drizzle, so might want to bring your umbrella")
+            gear.append(emoji.emojize("it might drizzle, so might want to bring your :umbrella:", use_aliases=True))
         # RAIN
         elif "Rain" in weather_description:
-            gear.append("it's a rainy day! Bring your umbrella, ella, ella, ey, ey, ey")
+            gear.append(emoji.emojize("it's a rainy day! Bring your :umbrella:, ella, ella, ey, ey, ey", use_aliases=True))
         # THUNDERSTORM
         elif "Thunderstorm" in weather_description:
-            gear.append("it's going to thunder, stay in or bring your umbrella")
+            gear.append(emoji.emojize("it's going to thunder :zap: , stay in or bring your umbrella", use_aliases=True))
         elif "Clouds" in weather_description:
-            gear.append("it's a cloudy day")
+            gear.append(emoji.emojize("it's a cloudy day :cloud:", use_aliases=True))
         return gear
         
     
@@ -101,9 +100,9 @@ while True:
 
     content = ""
     if len(gear) == 1:
-        content = "Weather for tomorrow suggests: " + str(gear) + "!"
+        content = "Weather for tomorrow suggests that " + str(gear) + f", with a high of {high_temp}F and a low of {low_temp}F"
     else:
-        content = "Weather for tomorrow suggests: " + " and ".join(gear)
+        content = "Weather for tomorrow suggests that " + " and ".join(gear) + f", with a high of {high_temp}F and a low of {low_temp}F"
     print(content)
     
     ## TODO: Integrate TWilio to send SMS
@@ -122,30 +121,28 @@ while True:
 
     # COMPILE REQUEST PARAMETERS (PREPARE THE MESSAGE)
 
-    content = f"Weather for tomorrow suggests: {gear}"
+    contents = content
 
     # ISSUE REQUEST (SEND SMS)
 
     message = client.messages.create(
         to=RECIPIENT_SMS, 
         from_=SENDER_SMS, 
-        body=content)
+        body=contents)
 
-    print(message.sid)
+    # PARSE RESPONSE
 
-    ## PARSE RESPONSE
+    pp = pprint.PrettyPrinter(indent=4)
 
-    # pp = pprint.PrettyPrinter(indent=4)
-
-    # print("----------------------")
-    # print("SMS")
-    # print("----------------------")
-    # print("RESPONSE: ", type(message))
-    # print("FROM:", message.from_)
-    # print("TO:", message.to)
-    # print("BODY:", message.body)
-    # print("PROPERTIES:")
-    # pp.pprint(dict(message._properties))
+    print("----------------------")
+    print("SMS")
+    print("----------------------")
+    print("RESPONSE: ", type(message))
+    print("FROM:", message.from_)
+    print("TO:", message.to)
+    print("BODY:", message.body)
+    print("PROPERTIES:")
+    pp.pprint(dict(message._properties))
 
 
     break
