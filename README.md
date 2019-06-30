@@ -1,6 +1,7 @@
 # JESSICA'S TOMORROW FORECAST REMINDER (TFR) 
 
 Thank you for your interest in Jessica's TFR program! In order to utilize my program, please read and follow the instructions below: 
+
     + FORK this repository to your GitHub account
     + CLONE this repository to your localhost
     + Open/Navigate to this repository on your GitHub Desktop
