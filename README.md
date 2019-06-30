@@ -17,12 +17,16 @@ cd ~/weather-reminder
 ```
 
 ## Create & Activate new anaconda virtual environment
+
+Run the following from your command line:
 ```sh
 conda create -n weather-env python=3.7 # (first time only)
 conda activate weather-env
 ```
 
 ## Install the required packages
+
+Run the following from your command line:
 ```sh
 pip install -r requirements.txt
 ```
@@ -35,7 +39,7 @@ pip install -r requirements.txt
 
 ## Create an .env file to store personal credentials, such as API Key
 
-Place your secret API key in the '.env' file:
+On VS Code, place your secret API key in the '.env' file:
 ```sh
 OpenWeatherMap_API_KEY="abc123"
 ```
@@ -69,7 +73,10 @@ Once all of the steps above is completed and successful, run the following from 
 python weather.py
 ```
 
-## Running PYTEST on command line
+
+### (If you wish...) Run PYTEST on command line
+
+Run the following from your command line:
 ```sh
 pytest
 ```
