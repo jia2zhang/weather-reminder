@@ -1,6 +1,32 @@
 # JESSICA'S TOMORROW FORECAST REMINDER (TFR) 
 
-## Make sure to get your own API Key for OpenWeatherMap.org
+Thank you for your interest in Jessica's TFR program! In order to utilize my program, please read and follow the instructions below: 
+    + FORK this repository to your GitHub account
+    + CLONE this repository to your localhost
+    + Open/Navigate to this repository on your GitHub Desktop
+    + Acquire your own OpenWeatherMap_API_KEY on <OpenWeatherMap.org>
+    + Create and activate your own TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, SENDER_SMS, and RECIPIENT_SMS credentials on <Twilio.com>
+    + Follow the rest of the instructions below and you'll be all set!
+
+## Setup
+
+Navigate to the repository using either Terminal or Git Bash
+```sh
+cd ~/weather-reminder
+```
+
+## Create & Activate new anaconda virtual environment
+```sh
+conda create -n weather-env python=3.7 # (first time only)
+conda activate weather-env
+```
+
+## Install the required packages
+```sh
+pip install -r requirements.txt
+```
+
+## Setup - Make sure to get your own API Key for OpenWeatherMap.org
 
 1. Go to https://home.openweathermap.org/users/sign_up
 2. Fill in your own information: Username, E-mail Address, and Password
@@ -14,17 +40,6 @@ OpenWeatherMap_API_KEY="abc123"
 ```
 
 Finally, double check to make sure '.env' is added to the '.gitignore' file.
-
-## Create & Activate new anaconda virtual environment
-```sh
-conda create -n weather-env python=3.7 # (first time only)
-conda activate weather-env
-```
-
-## Install the required packages
-```sh
-pip install -r requirements.txt
-```
 
 ## Setting up Twilio SMS Capabilities
 
@@ -45,6 +60,13 @@ RECIPIENT_SMS = "+11234567890"
 ```
 
 NOTE: The SMS capability can be expanded by purchasing the full version of the Twilio Programmable SMS capability, including purchasing your own phone number and paying per SMS message. 
+
+## RUN THE PROGRAM
+
+Once all of the steps above is completed and successful, run the following from the command line:
+```sh
+python weather.py
+```
 
 ## Running PYTEST on command line
 ```sh
