@@ -1,8 +1,9 @@
 ## Install all necessary packages
-import os, requests, json, csv, datetime, calendar, time, dateutil, zipcodes
+import os, requests, json, csv, datetime, calendar, time, dateutil, zipcodes, pprint
 from dotenv import load_dotenv
 from datetime import timedelta
 from dateutil import tz
+from twilio.rest import Client
 
 ## TODO: Implement Zipcode Validator 
 # Source: <https://pypi.org/project/zipcodes>
@@ -76,31 +77,74 @@ while True:
     def recommendation(weather_description,high,low):
         # TEMPERATURES
         if int(high) > 80:
-            gear.append("it's shorts weather!")
+            gear.append("it's shorts weather")
         elif int(low) < 49:
-            gear.append("brrrrr, wear a jacket!")
+            gear.append("brrrrr, wear a jacket")
         # SNOW
         if "Snow" in weather_description:
-            gear.append("it's a snowy day! Wear your snow gear!")
+            gear.append("it's a snowy day! Wear your snow gear")
         # DRIZZLE
         elif "Drizzle" in weather_description:
-            gear.append("it might drizzle, so might want to bring your umbrella!")
+            gear.append("it might drizzle, so might want to bring your umbrella")
         # RAIN
         elif "Rain" in weather_description:
-            gear.append("it's a rainy day! Bring your umbrella, ella, ella, ey, ey, ey!")
+            gear.append("it's a rainy day! Bring your umbrella, ella, ella, ey, ey, ey")
         # THUNDERSTORM
         elif "Thunderstorm" in weather_description:
-            gear.append("it's going to thunder, stay in or bring your umbrella!")
+            gear.append("it's going to thunder, stay in or bring your umbrella")
         elif "Clouds" in weather_description:
-            gear.append("it's a cloudy day!")
+            gear.append("it's a cloudy day")
         return gear
         
     
     recommendation(weather_main,high_temp,low_temp)
 
-    print("Weather for tomorrow suggests: ")
-    for g in gear:
-        print("-", g)
+    content = ""
+    if len(gear) == 1:
+        content = "Weather for tomorrow suggests: " + str(gear) + "!"
+    else:
+        content = "Weather for tomorrow suggests: \n" + " and ".join(gear)
+    # print(content)
+
+    ## TODO: Integrate TWilio to send SMS
+    # Your Account SID from twilio.com/console
+    TWILIO_ACCOUNT_SID = os.environ.get("TWILIO_ACCOUNT_SID", "OOPS, please specify env var called 'TWILIO_ACCOUNT_SID'")
+    # Your Auth Token from twilio.com/console
+    TWILIO_AUTH_TOKEN  = os.environ.get("TWILIO_AUTH_TOKEN", "OOPS, please specify env var called 'TWILIO_AUTH_TOKEN'")
+    
+    SENDER_SMS  = os.environ.get("SENDER_SMS", "OOPS, please specify env var called 'SENDER_SMS'")
+    RECIPIENT_SMS  = os.environ.get("RECIPIENT_SMS", "OOPS, please specify env var called 'RECIPIENT_SMS'")
+
+    # AUTHENTICATE
+
+    client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+
+    # COMPILE REQUEST PARAMETERS (PREPARE THE MESSAGE)
+
+    content = f"Weather for tomorrow suggests: {gear}"
+
+    # ISSUE REQUEST (SEND SMS)
+
+    message = client.messages.create(
+        to=RECIPIENT_SMS, 
+        from_=SENDER_SMS, 
+        body=content)
+
+    print(message.sid)
+
+    ## PARSE RESPONSE
+
+    # pp = pprint.PrettyPrinter(indent=4)
+
+    # print("----------------------")
+    # print("SMS")
+    # print("----------------------")
+    # print("RESPONSE: ", type(message))
+    # print("FROM:", message.from_)
+    # print("TO:", message.to)
+    # print("BODY:", message.body)
+    # print("PROPERTIES:")
+    # pp.pprint(dict(message._properties))
 
 
     break
