@@ -81,16 +81,16 @@ while True:
             gear.append(emoji.emojize(":raised_hands: it's a perfect day for :shirt::jeans:", use_aliases=True))
         # SNOW
         if "Snow" in weather_description:
-            gear.append(emoji.emojize("it's a snowy day! Wear your snow gear :snowboarder:", use_aliases=True))
+            gear.append(emoji.emojize("it's a snowy day, so wear your snow gear :snowboarder:", use_aliases=True))
         # DRIZZLE
         elif "Drizzle" in weather_description:
             gear.append(emoji.emojize("it might drizzle, so might want to bring your :umbrella:", use_aliases=True))
         # RAIN
         elif "Rain" in weather_description:
-            gear.append(emoji.emojize("it's a rainy day! Bring your :umbrella:, ella, ella, ey, ey, ey", use_aliases=True))
+            gear.append(emoji.emojize("it's a rainy day, so bring an :umbrella:", use_aliases=True))
         # THUNDERSTORM
         elif "Thunderstorm" in weather_description:
-            gear.append(emoji.emojize("it's going to thunder :zap: , stay in or bring your umbrella", use_aliases=True))
+            gear.append(emoji.emojize("it's going to thunder :zap: , stay in or bring your :umbrella:", use_aliases=True))
         elif "Clouds" in weather_description:
             gear.append(emoji.emojize("it's a cloudy day :cloud:", use_aliases=True))
         return gear
@@ -100,7 +100,7 @@ while True:
 
     content = ""
     if len(gear) == 1:
-        content = "Weather for tomorrow suggests that " + str(gear) + f", with a high of {high_temp}F and a low of {low_temp}F"
+        content = "Weather for tomorrow suggests that " + gear[0] + f", with a high of {high_temp}F and a low of {low_temp}F"
     else:
         content = "Weather for tomorrow suggests that " + " and ".join(gear) + f", with a high of {high_temp}F and a low of {low_temp}F"
     print(content)
