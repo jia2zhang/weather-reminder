@@ -103,16 +103,17 @@ while True:
     if len(gear) == 1:
         content = "Weather for tomorrow suggests: " + str(gear) + "!"
     else:
-        content = "Weather for tomorrow suggests: \n" + " and ".join(gear)
-    # print(content)
-
-    ## TODO: Integrate TWilio to send SMS
-    # Your Account SID from twilio.com/console
-    TWILIO_ACCOUNT_SID = os.environ.get("TWILIO_ACCOUNT_SID", "OOPS, please specify env var called 'TWILIO_ACCOUNT_SID'")
-    # Your Auth Token from twilio.com/console
-    TWILIO_AUTH_TOKEN  = os.environ.get("TWILIO_AUTH_TOKEN", "OOPS, please specify env var called 'TWILIO_AUTH_TOKEN'")
+        content = "Weather for tomorrow suggests: " + " and ".join(gear)
+    print(content)
     
+    ## TODO: Integrate TWilio to send SMS
+    # Your Account SID from <twilio.com/console>
+    TWILIO_ACCOUNT_SID = os.environ.get("TWILIO_ACCOUNT_SID", "OOPS, please specify env var called 'TWILIO_ACCOUNT_SID'")
+    # Your Auth Token from <twilio.com/console>
+    TWILIO_AUTH_TOKEN  = os.environ.get("TWILIO_AUTH_TOKEN", "OOPS, please specify env var called 'TWILIO_AUTH_TOKEN'")
+    # Your SMS capable phone number from <twilio.com/console/phone-numbers/incoming>
     SENDER_SMS  = os.environ.get("SENDER_SMS", "OOPS, please specify env var called 'SENDER_SMS'")
+    # Your Verified phone number that can receive Twilio SMS message from <twilio.com/console/phone-numbers/verified>
     RECIPIENT_SMS  = os.environ.get("RECIPIENT_SMS", "OOPS, please specify env var called 'RECIPIENT_SMS'")
 
     # AUTHENTICATE
