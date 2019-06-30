@@ -70,6 +70,7 @@ while True:
 
     ## TODO: Create recommendation logic based on weather_main and weather_temp
     # Weather Conditions Documentation: <https://openweathermap.org/weather-conditions>
+    # Emoji Documentation: <https://pypi.org/project/emoji/>
     gear = []
     def recommendation(weather_description,high,low):
         # TEMPERATURES
@@ -146,3 +147,5 @@ while True:
 
 
     break
+
+    ## TODO: Schedule all this on a server to run every night
