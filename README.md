@@ -9,6 +9,18 @@ Thank you for your interest in Jessica's TFR program! In order to utilize my pro
     + Create and activate your own TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, SENDER_SMS, and RECIPIENT_SMS credentials on <Twilio.com>
     + Follow the rest of the instructions below and you'll be all set!
 
+## Software Requirements
+
+The following software are required to execute and run this TFR program:
+
+    + Python 3.7
+    + Anaconda Version 3.7
+    + Visual Studio Code text editor
+    + GitHub Desktop
+    + Git Bash (Windows)
+
+For more information on installation, please use the instructions on my professor's GitHub: <https://github.com/prof-rossetti/nyu-info-2335-201905/blob/master/units/unit-0.md>
+
 ## Setup
 
 Navigate to the repository using either Terminal or Git Bash
@@ -31,13 +43,14 @@ Run the following from your command line:
 pip install -r requirements.txt
 ```
 
-## Setup - Make sure to get your own API Key for OpenWeatherMap.org
+## Security Requirements
+
+If you haven't done so already, make sure to get your own API Key for OpenWeatherMap.org
 
 1. Go to https://home.openweathermap.org/users/sign_up
 2. Fill in your own information: Username, E-mail Address, and Password
 3. Find your API key on the 'API Key' tab in your account
-
-## Create an .env file to store personal credentials, such as API Key
+4. Create an .env file to store personal credentials, such as API Key
 
 On VS Code, place your secret API key in the '.env' file:
 ```sh
@@ -47,6 +60,8 @@ OpenWeatherMap_API_KEY="abc123"
 Finally, double check to make sure '.env' is added to the '.gitignore' file.
 
 ## Setting up Twilio SMS Capabilities
+
+(CREDIT ATTRIBUTION: The following Twiliio setup instruction was provided by my professor: https://github.com/prof-rossetti/nyu-info-2335-201905/blob/master/notes/python/packages/twilio.md)
 
 Create a Twilio account on <https://www.twilio.com/try-twilio>
 

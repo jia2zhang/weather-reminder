@@ -69,8 +69,7 @@ if __name__ == "__main__":
         except KeyError as error:
             print("This is not a valid zipcode. Please try again!")
             continue
-        # print(response)
-        # print(parsed_response)
+
         print("The location you input is", my_city)
 
 
@@ -78,13 +77,9 @@ if __name__ == "__main__":
         # Source 1: <https://stackoverflow.com/questions/79797/how-to-convert-local-time-string-to-utc>
         request_time = ""+datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         request_end = ""+(datetime.datetime.now()+timedelta(days=2)).strftime("%Y-%m-%d 00:00:00")
-            # print("Request Time is " + request_time)
-            # print("Request End Time is " + request_end)
 
         t_utc = calendar.timegm(time.strptime(request_time, '%Y-%m-%d %H:%M:%S'))
         t_utc_end = calendar.timegm(time.strptime(request_end, '%Y-%m-%d %H:%M:%S'))
-            # print("UTC Request Time is " + str(t_utc))
-            # print("UTC Request End Time is " + str(t_utc_end))
 
         ## TODO: Create a today's main weather list, with ["Weather"][#]["main"] where # should be different values
         weather_main = []
@@ -111,49 +106,49 @@ if __name__ == "__main__":
 
         content = ""
         if len(gear) == 1:
-            content = "Weather for tomorrow suggests that " + gear[0] + f", with a high of {high_temp}F and a low of {low_temp}F"
+            content = f"Weather for tomorrow in {my_city} suggests that " + gear[0] + f", with a high of {high_temp}F and a low of {low_temp}F"
         else:
-            content = "Weather for tomorrow suggests that " + " and ".join(gear) + f", with a high of {high_temp}F and a low of {low_temp}F"
+            content = f"Weather for tomorrow in {my_city} suggests that " + " and ".join(gear) + f", with a high of {high_temp}F and a low of {low_temp}F"
         print(content)
         
-        # ## TODO: Integrate TWilio to send SMS
-        # # Your Account SID from <twilio.com/console>
-        # TWILIO_ACCOUNT_SID = os.environ.get("TWILIO_ACCOUNT_SID", "OOPS, please specify env var called 'TWILIO_ACCOUNT_SID'")
-        # # Your Auth Token from <twilio.com/console>
-        # TWILIO_AUTH_TOKEN  = os.environ.get("TWILIO_AUTH_TOKEN", "OOPS, please specify env var called 'TWILIO_AUTH_TOKEN'")
-        # # Your SMS capable phone number from <twilio.com/console/phone-numbers/incoming>
-        # SENDER_SMS  = os.environ.get("SENDER_SMS", "OOPS, please specify env var called 'SENDER_SMS'")
-        # # Your Verified phone number that can receive Twilio SMS message from <twilio.com/console/phone-numbers/verified>
-        # RECIPIENT_SMS  = os.environ.get("RECIPIENT_SMS", "OOPS, please specify env var called 'RECIPIENT_SMS'")
+        ## TODO: Integrate TWilio to send SMS
+        # Your Account SID from <twilio.com/console>
+        TWILIO_ACCOUNT_SID = os.environ.get("TWILIO_ACCOUNT_SID", "OOPS, please specify env var called 'TWILIO_ACCOUNT_SID'")
+        # Your Auth Token from <twilio.com/console>
+        TWILIO_AUTH_TOKEN  = os.environ.get("TWILIO_AUTH_TOKEN", "OOPS, please specify env var called 'TWILIO_AUTH_TOKEN'")
+        # Your SMS capable phone number from <twilio.com/console/phone-numbers/incoming>
+        SENDER_SMS  = os.environ.get("SENDER_SMS", "OOPS, please specify env var called 'SENDER_SMS'")
+        # Your Verified phone number that can receive Twilio SMS message from <twilio.com/console/phone-numbers/verified>
+        RECIPIENT_SMS  = os.environ.get("RECIPIENT_SMS", "OOPS, please specify env var called 'RECIPIENT_SMS'")
 
-        # # AUTHENTICATE
+        # AUTHENTICATE
 
-        # client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+        client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
 
-        # # COMPILE REQUEST PARAMETERS (PREPARE THE MESSAGE)
+        # COMPILE REQUEST PARAMETERS (PREPARE THE MESSAGE)
 
-        # contents = content
+        contents = content
 
-        # # ISSUE REQUEST (SEND SMS)
+        # ISSUE REQUEST (SEND SMS)
 
-        # message = client.messages.create(
-        #     to=RECIPIENT_SMS, 
-        #     from_=SENDER_SMS, 
-        #     body=contents)
+        message = client.messages.create(
+            to=RECIPIENT_SMS, 
+            from_=SENDER_SMS, 
+            body=contents)
 
-        # # PARSE RESPONSE
+        # PARSE RESPONSE
 
-        # pp = pprint.PrettyPrinter(indent=4)
+        pp = pprint.PrettyPrinter(indent=4)
 
-        # print("----------------------")
-        # print("SMS")
-        # print("----------------------")
-        # print("RESPONSE: ", type(message))
-        # print("FROM:", message.from_)
-        # print("TO:", message.to)
-        # print("BODY:", message.body)
-        # print("PROPERTIES:")
-        # pp.pprint(dict(message._properties))
+        print("----------------------")
+        print("SMS")
+        print("----------------------")
+        print("RESPONSE: ", type(message))
+        print("FROM:", message.from_)
+        print("TO:", message.to)
+        print("BODY:", message.body)
+        print("PROPERTIES:")
+        pp.pprint(dict(message._properties))
 
 
         break
