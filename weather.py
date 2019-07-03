@@ -1,8 +1,7 @@
 ## Install all necessary packages
-import os, requests, json, csv, datetime, calendar, time, dateutil, zipcodes, pprint, emoji
+import os, requests, json, datetime, calendar, time, zipcodes, pprint, emoji
 from dotenv import load_dotenv
 from datetime import timedelta
-from dateutil import tz
 from twilio.rest import Client
 
 ## Helper Functions
